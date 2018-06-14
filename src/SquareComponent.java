@@ -15,6 +15,8 @@ public class SquareComponent extends JPanel{
 
     public void add(Square sq){
         squareList.add(sq);
+        System.out.println("Dodano " + squareList.size() + " kwadrat");
+
     }
 
     @Override

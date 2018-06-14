@@ -6,23 +6,27 @@ import java.awt.event.ActionListener;
 public class FallFrame {
 
 
+    final static int startNumber = 10;
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-
+                Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+                int screenHeight = screen.height;
+                int screenWidth = screen.width;
 
                 SquareFrame window = new SquareFrame();
-
                 window.setLocationRelativeTo(null);
                 window.setTitle("Mateusz");
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+                window.setSize(screenWidth / 2, screenHeight / 2);
 
                 window.setVisible(true);
+              //generowanie startowych kwadratów
+                for (int i =0; i<startNumber;i++)
+                    window.addSquare();
 
-                //window.setBackground(new Color(255,255,0));
             }
         });
 
@@ -30,6 +34,8 @@ public class FallFrame {
     }//end main
 
 }
+
+
 
 //klasa implemantujaca interfejs Runable i tworzaca animacje spadania
 class SquareRunnable implements Runnable {
@@ -49,7 +55,7 @@ class SquareRunnable implements Runnable {
     private ActionListener timerAction = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
             square.move(component.getSize());
-            //component.repaint();  //w run zeby dodawanie w czasie pauzy działało
+            component.repaint();
 
         }
     };
@@ -58,7 +64,7 @@ class SquareRunnable implements Runnable {
     @Override
     public void run() {
         try {
-
+            component.repaint();
             timer.start();
             while (true) {
 
@@ -66,7 +72,7 @@ class SquareRunnable implements Runnable {
                     timer.start();
                 else
                     timer.stop();
-                component.repaint();
+                //component.repaint();
                 Thread.sleep(10);
                 //square.move(component.getSize());
             }
@@ -80,17 +86,13 @@ class SquareRunnable implements Runnable {
 //Ranka z panelem i przyciskami
 class SquareFrame extends JFrame {
 
-    final static int startNumber = 10;
     private SquareComponent comp;
     int size = 20;
 
 
     public SquareFrame() {
 
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screen.height;
-        int screenWidth = screen.width;
-        this.setSize(screenWidth / 2, screenHeight / 2);
+
 
 
         comp = new SquareComponent();
@@ -108,12 +110,12 @@ class SquareFrame extends JFrame {
         });
 
 
+
+
         addButton(buttonPannel, "Stop", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.exit(0);
-                //if (timer.isRunning())
-                //timer.stop();
+
                 comp.isRunning = false;
             }
         });
@@ -121,12 +123,15 @@ class SquareFrame extends JFrame {
         addButton(buttonPannel, "Start", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.exit(0);
-                //if (!timer.isRunning())
-                //timer.start();
 
                 comp.isRunning = true;
+            }
+        });
 
+        addButton(buttonPannel, "Exit", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
 
@@ -134,14 +139,7 @@ class SquareFrame extends JFrame {
         add(buttonPannel, BorderLayout.SOUTH);
         pack();
 
-
-        //for (int i = 0; i < startNumber; i++)
-           // addSquare();
-
     }
-
-
-
 
 
 
