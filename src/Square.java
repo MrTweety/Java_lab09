@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Square  {
@@ -7,7 +8,13 @@ public class Square  {
     private Point C;
     private Point D;
     double size, speed;
+    double dx,dy;
     private Color figureColor;
+
+
+
+
+
     Random generator = new Random();
 
 
@@ -21,14 +28,22 @@ public class Square  {
 
     }
 
-    Square(double left, double top, double size){
+    Square(Dimension d,double size){
+
+
+         int screenHeight = d.height;
+          int screenWidth = d.width;
+
+
+        double top = generator.nextInt((int)(screenHeight - size));
+        double left = generator.nextInt((int)(screenWidth - size));
         this.size = size;
         this.A=new Point( left, top );
         this.B=new Point(left + size, top );
         this.C=new Point(left + size,top + size );
         this.D=new Point( left, top + size );
         this.setColor(new Color(generator.nextInt(255),generator.nextInt(255),generator.nextInt(255)));
-        this.speed = 0.5;
+        this.speed =  generator.nextInt(6)+1;
 
     }
 
@@ -41,6 +56,34 @@ public class Square  {
         C.setX(left + size);
         C.setY(top + size);
         D.setY(top + size);
+    }
+
+
+    public void move(Dimension dd) {
+        //bounds.get
+
+//        A.setY(A.getY()+speed);
+//        B.setY(B.getY()+speed);
+//        C.setY(C.getY()+speed);
+//        D.setY(D.getY()+speed);
+
+        if(A.getY() < dd.height){
+
+            A.setY(A.getY()+speed);
+            B.setY(B.getY()+speed);
+            C.setY(C.getY()+speed);
+            D.setY(D.getY()+speed);
+
+        }
+        else{
+
+
+
+            A.setY(0 - size);
+            B.setY(0 - size);
+            C.setY(0);
+            D.setY(0);
+        }
     }
 
 
